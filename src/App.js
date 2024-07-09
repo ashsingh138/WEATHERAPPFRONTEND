@@ -16,6 +16,7 @@ const App = () => {
   const [error, setError] = useState('');
 
   const API_KEY = '5062429b52a548e498a91917240807';
+  const BACKEND_URL = 'https://weatherappbackend-seven.vercel.app/'; // Your deployed backend URL
 
   const fetchWeatherData = useCallback(async (location) => {
     try {
@@ -92,7 +93,7 @@ const App = () => {
     }
     try {
       const token = localStorage.getItem('token'); // Assuming you store the token in localStorage after login
-      const response = await axios.post('/api/location/add', { name: location }, {
+      const response = await axios.post(`${BACKEND_URL}/api/location/add`, { name: location }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setSavedLocations([...savedLocations, response.data]);
@@ -102,11 +103,10 @@ const App = () => {
       setError('Failed to save location. Please try again.');
     }
   };
-  
 
   const handleDelete = async (index, locationId) => {
     try {
-      await axios.delete(`/api/location/delete/${locationId}`);
+      await axios.delete(`${BACKEND_URL}/api/location/delete/${locationId}`);
       const updatedLocations = savedLocations.filter((_, i) => i !== index);
       setSavedLocations(updatedLocations);
     } catch (error) {
@@ -126,8 +126,8 @@ const App = () => {
       <div className="saved-locations">
         {savedLocations.map((loc, index) => (
           <div key={index} className="saved-location">
-            <p>{loc}</p>
-            <button onClick={() => handleSearch(loc)}>Show Weather</button>
+            <p>{loc.name}</p>
+            <button onClick={() => handleSearch(loc.name)}>Show Weather</button>
             <button onClick={() => handleDelete(index, loc._id)}>Delete</button>
           </div>
         ))}
