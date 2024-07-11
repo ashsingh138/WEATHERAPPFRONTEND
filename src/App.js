@@ -16,7 +16,7 @@ const App = () => {
   const [error, setError] = useState('');
 
   const API_KEY = '5062429b52a548e498a91917240807';
-  const BACKEND_URL = 'https://weatherappbackend-seven.vercel.app/'; // Your deployed backend URL
+  const BACKEND_URL = 'https://weatherappbackendfinal-4.onrender.com'; // Your deployed backend URL
 
   const fetchWeatherData = useCallback(async (location) => {
     try {
